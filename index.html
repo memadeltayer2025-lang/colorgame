@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لعبة الألوان السريعة</title>
+
+    <meta
+      name="description"
+      content="لعبة تفاعلية ممتعة للأطفال لتطوير سرعة البديهة الحركية والتركيز البصري"
+    />
+    <meta name="theme-color" content="#FF6B6B" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="الألوان السريعة" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="الألوان السريعة" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSIzMiIgZmlsbD0iI0ZGNkI2QiIvPjxjaXJjbGUgY3g9Ijk2IiBjeT0iOTYiIHI9IjQ4IiBmaWxsPSJ3aGl0ZSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0OCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+MjTwvdGV4dD48L3N2Zz4="
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIHJ4PSI0MCIgZmlsbD0iI0ZGNkI2QiIvPjx0ZXh0IHg9IjkwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI2MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfjI08L3RleHQ+PC9zdmc+
+"
+    />
+
+    <link rel="manifest" href="./manifest.json" />
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Tajawal', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+      .game-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        position: relative;
+      }
+      .game-title {
+        font-size: 2.5rem;
+        color: #ff6b6b;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      .game-subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+      }
+      .score-board {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 15px;
+      }
+      .score-item {
+        text-align: center;
+      }
+      .score-label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 5px;
+      }
+      .score-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+      }
+      .game-area {
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .color-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        border: 5px solid #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .color-circle:hover {
+        transform: scale(1.1);
+      }
+      .instruction {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      .color-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+      .color-btn {
+        padding: 15px 20px;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Tajawal', sans-serif;
+      }
+      .color-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      .start-btn {
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 25px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Tajawal', sans-serif;
+      }
+      .start-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+      }
+      .timer-bar {
+        width: 100%;
+        height: 10px;
+        background: #e0e0e0;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      .timer-fill {
+        height: 100%;
+        background: linear-gradient(45deg, #4caf50, #8bc34a);
+        transition: width 0.1s linear;
+        border-radius: 5px;
+      }
+      .game-over {
+        text-align: center;
+      }
+      .final-score {
+        font-size: 2rem;
+        color: #ff6b6b;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      .celebration {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        animation: bounce 1s infinite;
+      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+      .floating-score {
+        position: absolute;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #4caf50;
+        animation: floatUp 1s ease-out forwards;
+        pointer-events: none;
+      }
+      @keyframes floatUp {
+        0% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+      }
+      .wrong-answer {
+        animation: shake 0.5s ease-in-out;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-10px);
+        }
+        75% {
+          transform: translateX(10px);
+        }
+      }
+      @media (max-width: 480px) {
+        .game-container {
+          padding: 20px;
+          margin: 10px;
+        }
+        .game-title {
+          font-size: 2rem;
+        }
+        .color-circle {
+          width: 120px;
+          height: 120px;
+        }
+        .color-buttons {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-container">
+      <h1 class="game-title">🌈 لعبة الألوان السريعة</h1>
+      <p class="game-subtitle">اضغط على اللون الصحيح بأسرع ما يمكن!</p>
+      <div class="score-board">
+        <div class="score-item">
+          <div class="score-label">النقاط</div>
+          <div class="score-value" id="score">0</div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">المستوى</div>
+          <div class="score-value" id="level">1</div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">أفضل نتيجة</div>
+          <div class="score-value" id="bestScore">0</div>
+        </div>
+      </div>
+      <div class="game-area" id="gameArea">
+        <button class="start-btn" onclick="startGame()">
+          🎮 ابدأ اللعب
+        </button>
+      </div>
+    </div>
+    <script>
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('./sw.js')
+            .then((registration) => {
+              console.log('SW registered successfully');
+            })
+            .catch((error) => {
+              console.log('SW registration failed');
+            });
+        });
+      }
+
+      // Game Variables: تعريف حالة اللعبة
+      const gameState = {
+        score: 0,
+        level: 1,
+        bestScore: localStorage.getItem('bestScore') || 0,
+        isPlaying: false,
+        currentTimer: null,
+        currentColor: '',
+        colors: [
+          { name: 'أحمر', value: '#FF6B6B', arabic: 'أحمر' },
+          { name: 'أزرق', value: '#4ECDC4', arabic: 'أزرق' },
+          { name: 'أخضر', value: '#45B7D1', arabic: 'أخضر' },
+          { name: 'أصفر', value: '#FFA726', arabic: 'أصفر' },
+          { name: 'بنفسجي', value: '#AB47BC', arabic: 'بنفسجي' },
+          { name: 'برتقالي', value: '#FF7043', arabic: 'برتقالي' },
+        ],
+      };
+
+      // Initialize best score display
+      document.getElementById('bestScore').textContent = gameState.bestScore;
+
+      // startGame: تبدأ جولة لعب جديدة
+      function startGame() {
+        gameState.score = 0;
+        gameState.level = 1;
+        gameState.isPlaying = true;
+        updateScore();
+        nextRound();
+      }
+
+      // nextRound: تهيئ الجولة التالية من اللعبة
+      function nextRound() {
+        if (!gameState.isPlaying) return;
+
+        // اختيار لون عشوائي
+        const randomIndex = Math.floor(Math.random() * gameState.colors.length);
+        gameState.currentColor = gameState.colors[randomIndex];
+
+        // إنشاء واجهة اللعبة
+        const gameArea = document.getElementById('gameArea');
+        gameArea.innerHTML = `
+          <div class="timer-bar">
+            <div class="timer-fill" id="timerFill" style="width: 100%"></div>
+          </div>
+          <div class="instruction">اضغط على: ${gameState.currentColor.arabic}</div>
+          <div class="color-circle" style="background-color: ${gameState.currentColor.value}"></div>
+          <div class="color-buttons" id="colorButtons"></div>
+        `;
+
+        // إنشاء أزرار الإجابات
+        const buttonsContainer = document.getElementById('colorButtons');
+        const answerChoices = [gameState.currentColor];
+        const otherColors = gameState.colors.filter(
+          (color) => color.arabic !== gameState.currentColor.arabic
+        );
+        const shuffledOthers = otherColors.sort(() => Math.random() - 0.5);
+        answerChoices.push(...shuffledOthers.slice(0, 3));
+        const finalChoices = answerChoices.sort(() => Math.random() - 0.5);
+
+        finalChoices.forEach((color) => {
+          const button = document.createElement('button');
+          button.className = 'color-btn';
+          button.style.backgroundColor = color.value;
+          button.textContent = color.arabic;
+          button.onclick = () => checkAnswer(color.arabic);
+          buttonsContainer.appendChild(button);
+        });
+
+        startTimer();
+      }
+
+      // startTimer: تبدأ مؤقت الجولة
+      function startTimer() {
+        // مسح المؤقت السابق لمنع تداخله
+        if (gameState.currentTimer) {
+          clearInterval(gameState.currentTimer);
+        }
+
+        const timerFill = document.getElementById('timerFill');
+        const baseTime = Math.max(3000 - gameState.level * 200, 1500);
+        const interval = 50;
+        const totalSteps = baseTime / interval;
+        let currentStep = 0;
+
+        const timer = setInterval(() => {
+          currentStep++;
+          const percentage = ((totalSteps - currentStep) / totalSteps) * 100;
+          timerFill.style.width = percentage + '%';
+          
+          if (currentStep >= totalSteps) {
+            clearInterval(timer);
+            if (gameState.isPlaying) {
+              wrongAnswer();
+            }
+          }
+        }, interval);
+        gameState.currentTimer = timer;
+      }
+
+      // checkAnswer: تتحقق من إجابة اللاعب
+      function checkAnswer(selectedColor) {
+        if (!gameState.isPlaying) return;
+        clearInterval(gameState.currentTimer);
+        if (selectedColor === gameState.currentColor.arabic) {
+          correctAnswer();
+        } else {
+          wrongAnswer();
+        }
+      }
+
+      // correctAnswer: تتم عند الإجابة الصحيحة
+      function correctAnswer() {
+        gameState.score += gameState.level * 10;
+        showFloatingScore('+' + gameState.level * 10);
+        if (gameState.score >= 50 && gameState.score % 50 === 0) {
+            gameState.level++;
+        }
+        updateScore();
+        setTimeout(() => {
+          nextRound();
+        }, 1000);
+      }
+
+      // wrongAnswer: تتم عند الإجابة الخاطئة
+      function wrongAnswer() {
+        const gameArea = document.getElementById('gameArea');
+        gameArea.classList.add('wrong-answer');
+        setTimeout(() => {
+          gameArea.classList.remove('wrong-answer');
+          endGame();
+        }, 500);
+      }
+
+      // endGame: تنهي اللعبة وتظهر النتيجة النهائية
+      function endGame() {
+        gameState.isPlaying = false;
+        clearInterval(gameState.currentTimer);
+        if (gameState.score > gameState.bestScore) {
+          gameState.bestScore = gameState.score;
+          localStorage.setItem('bestScore', gameState.bestScore);
+          document.getElementById('bestScore').textContent = gameState.bestScore;
+        }
+
+        const gameArea = document.getElementById('gameArea');
+        gameArea.innerHTML = `
+          <div class="game-over">
+            <div class="celebration">${
+              gameState.score > 50 ? '🎉' : '😊'
+            }</div>
+            <div class="final-score">النتيجة النهائية: ${gameState.score}</div>
+            <p style="margin-bottom: 20px; color: #666;">
+              ${
+                gameState.score > gameState.bestScore
+                  ? 'رقم قياسي جديد! 🏆'
+                  : 'حاول مرة أخرى لتحسين نتيجتك!'
+              }
+            </p>
+            <button class="start-btn" onclick="startGame()">🔄 العب مرة أخرى</button>
+          </div>
+        `;
+      }
+
+      // updateScore: تحديث عرض النقاط والمستوى
+      function updateScore() {
+        document.getElementById('score').textContent = gameState.score;
+        document.getElementById('level').textContent = gameState.level;
+      }
+
+      // showFloatingScore: عرض النقاط العائمة
+      function showFloatingScore(text) {
+        const gameArea = document.getElementById('gameArea');
+        const floatingScore = document.createElement('div');
+        floatingScore.className = 'floating-score';
+        floatingScore.textContent = text;
+        floatingScore.style.left = '50%';
+        floatingScore.style.top = '50%';
+        floatingScore.style.transform = 'translateX(-50%)';
+        gameArea.appendChild(floatingScore);
+        setTimeout(() => {
+          if (floatingScore.parentNode) {
+            floatingScore.parentNode.removeChild(floatingScore);
+          }
+        }, 1000);
+      }
+
+      // منع التكبير بالتأشير المزدوج على الجوال
+      let lastTouchEnd = 0;
+      document.addEventListener(
+        'touchend',
+        function (event) {
+          const now = new Date().getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        },
+        false
+      );
+
+      // Install prompt for PWA
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+      });
+    </script>
+  </body>
+</html>
